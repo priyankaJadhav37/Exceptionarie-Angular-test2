@@ -11,6 +11,10 @@ import { MustMatch } from './../../../_helpers/must-match.validator';
 export class DemoComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
+  genders: string[];
+  submittedValues: any;
+  finalarraykeys: string[];
+  finalarrayvalues: unknown[];
   constructor(private formBuilder: FormBuilder) { }
   onSubmit() {
     this.submitted = true;
@@ -19,19 +23,41 @@ export class DemoComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
+    // console.log('this.registerForm.value',this.registerForm.value);
 
-    alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value))
+    this.finalarraykeys = Object.keys(this.registerForm.value);
+    this.finalarrayvalues = Object.values(this.registerForm.value);
+    for(var i=0;i<this.finalarrayvalues.length;i++){
+     if(this.finalarrayvalues[i]==true){
+      this.finalarrayvalues[i]= 'accepted T & C';
+     }
+     else{
+      this.finalarrayvalues
+     }
+   }
+    //console.log(this.finalarraykeys);
+    // console.log(this.finalarrayvalues);
+
   }
+
   ngOnInit() {
+    this.genders = ['male', 'female'];
+
+
     this.registerForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
+      gender: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      checkbox: ['', Validators.requiredTrue]
+
     }, {
-        validator: MustMatch('password', 'confirmPassword')
-      });
+      validator: MustMatch('password', 'confirmPassword')
+    });
+   
+
   }
   get f() { return this.registerForm.controls; }
 

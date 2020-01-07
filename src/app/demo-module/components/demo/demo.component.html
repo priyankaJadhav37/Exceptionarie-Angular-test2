@@ -2,9 +2,7 @@
   <div class="row centered-form">
     <div class="col-xs-12 col-sm-12 col-md-12 col-sm-offset-2 col-md-offset-12">
       <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">Please sign up for PBM <small>It's free!</small></h3>
-        </div>
+
         <div class="panel-body">
           <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
             <div class="row">
@@ -31,6 +29,20 @@
             </div>
 
             <div class="row">
+              <div class="col-lg-6 col ms-6 col-sm-6">
+                <div class="form-group">
+                  <label>Select Gender</label>
+                  <div class="gender text-capitalize">
+                    <label *ngFor="let gender of genders">
+                      <input type="radio" [value]="gender" formControlName="gender"
+                        [ngClass]="{'is-invalid': submitted && f.gender.errors }">{{gender}}
+                    </label>
+                  </div>
+                  <div *ngIf="submitted && f.gender.errors" class="invalid-input">
+                    <div *ngIf="f.gender.errors.required">Gender is required</div>
+                  </div>
+                </div>
+              </div>
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <label>Email</label>
@@ -42,6 +54,8 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <label>Password</label>
@@ -53,8 +67,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row">
               <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <label>Confirm Password</label>
@@ -67,7 +79,44 @@
                 </div>
               </div>
             </div>
+         
+            <div class="form-group form-check">
+              <input type="checkbox" name="checkbox" formControlName="checkbox"
+                [ngClass]="{ 'is-invalid': submitted && f.checkbox.errors }">&nbsp;terms & condition
+              <div *ngIf="submitted && f.checkbox.errors" class="invalid-input">
+                <div *ngIf="f.checkbox.errors.required">Please accept terms & condition</div>
+              </div>
+
+            </div>
             <button type="submit" class="btn btn-primary btn-block">Register</button>
           </form>
         </div>
       </div>
+    </div>
+  </div>
+  <div>
+
+    <!-- display data in table format -->
+    <table class="table table-bordered table-responsive">
+      <thead>
+        <tr>
+          <th *ngFor="let keyheader of finalarraykeys;let i=index;">
+            {{keyheader}}
+          </th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let submittedValue of finalarrayvalues;let i=index;">
+            <span>{{submittedValue}}
+            </span>
+
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
